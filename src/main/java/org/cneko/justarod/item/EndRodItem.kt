@@ -1,4 +1,4 @@
-package org.cneko.justarod.item
+package org.cneko.justarod.item.rod
 
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.enchantment.Enchantments
@@ -10,6 +10,7 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
@@ -18,6 +19,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -25,15 +27,17 @@ import org.cneko.justarod.JRAttributes
 import org.cneko.justarod.damage.JRDamageTypes
 import org.cneko.justarod.effect.JREffects
 import org.cneko.justarod.entity.Powerable
+import org.cneko.justarod.item.JRComponents
 import org.cneko.toneko.common.mod.items.BazookaItem.Ammunition
-import kotlin.math.hypot
 import kotlin.math.sqrt
+import org.cneko.justarod.JRUtil.Companion.createItemStack
+
 
 abstract class EndRodItem(settings: Settings) : Item(settings), EndRodItemInterface {
     override fun onUse(stack: ItemStack, world: World?, entity: LivingEntity, slot: Int, selected: Boolean,times: Int) : ActionResult{
         // 添加计数
-        val count = stack.getOrDefault(JRComponents.USED_TIME_MARK, 0)
-        stack.set(JRComponents.USED_TIME_MARK, count + times)
+        val count = stack.getOrDefault(JRComponents.Companion.USED_TIME_MARK, 0)
+        stack.set(JRComponents.Companion.USED_TIME_MARK, count + times)
 
         return ActionResult.SUCCESS
     }
@@ -41,14 +45,14 @@ abstract class EndRodItem(settings: Settings) : Item(settings), EndRodItemInterf
     override fun appendTooltip(stack: ItemStack?, context: TooltipContext?, tooltip: MutableList<Text>?, type: TooltipType?) {
         super.appendTooltip(stack, context, tooltip, type)
         // 将使用次数添加到tooltip中
-        val markedCount: Int = stack?.getOrDefault(JRComponents.USED_TIME_MARK, 0)!!
+        val markedCount: Int = stack?.getOrDefault(JRComponents.Companion.USED_TIME_MARK, 0)!!
         tooltip?.add(Text.translatable("item.justarod.end_rod.used_count", markedCount).formatted(Formatting.GREEN))
-        tooltip?.add(Text.translatable("item.justarod.end_rod.owner", stack.getOrDefault(JRComponents.OWNER,"无")).formatted(Formatting.YELLOW))
+        tooltip?.add(Text.translatable("item.justarod.end_rod.owner", stack.getOrDefault(JRComponents.Companion.OWNER,"无")).formatted(Formatting.YELLOW))
     }
 
     override fun onCraftByPlayer(stack: ItemStack?, world: World?, player: PlayerEntity?) {
         super.onCraftByPlayer(stack, world, player)
-        stack?.set(JRComponents.OWNER, player?.name?.string)
+        stack?.set(JRComponents.Companion.OWNER, player?.name?.string)
     }
     abstract fun getInstruction(): EndRodInstructions
 
@@ -111,7 +115,7 @@ open class SelfUsedItem(settings: Settings) : EndRodItem(settings), SelfUsedItem
         if (
             e.getStackInHand(Hand.OFF_HAND) == stack //是的,直接用==
             || slot == Int.MIN_VALUE // now works with inserted rods
-            ){
+        ){
             // 减少一点耐久 (即使没耐久也不损坏)
             stack.damage++
             // 执行
@@ -194,6 +198,8 @@ abstract class BothUsedItem(settings: Settings) : EndRodItem(settings),SelfUsedI
  * 给自己使用的末地烛接口
  */
 interface SelfUsedItemInterface : EndRodItemInterface{
+
+
     /**
      * 使用末地烛
      * @param stack 使用的末地烛
@@ -206,7 +212,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
     fun useOnSelf(stack: ItemStack, world: World?, entity: LivingEntity, slot: Int, selected: Boolean):ActionResult{
         val speed = this.getRodSpeed(stack)
         if (this.canDamage(stack, speed)){
-           this.damage(stack, speed, world)
+            this.damage(stack, speed, world)
         }else{
             return ActionResult.FAIL
         }
@@ -229,17 +235,25 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         // 最终的伤害指数
         val amount = speed / (lubricate)
 
-        if (amount >=10){
+        var dropItemId = "kubejs:defective_lust_crystal"
+
+        if (amount >= 100){
             // 痛死了！！！
             entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.3).toFloat())
+            dropItemId="kubebjs:normal_lust_crystal"
         }
-        if (amount >= 100){
+        if (amount >= 500){
             // 被草飞了喵
             val random = world?.random
             entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.05,
                 (random?.nextFloat()?.times(amount) ?: 0f).toDouble()*0.01, (random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.05)
             )
+            dropItemId="kubebjs:exquisite_lust_crystal"
         }
+
+        // 创建掉落部分物品堆
+        val stack = createItemStack(dropItemId, 1)
+        entity.dropStack(stack)
 
         // 要晕掉惹...
         if (entity is Powerable){
@@ -249,8 +263,10 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         // TODO： 淫叫
         return ActionResult.SUCCESS
     }
+
+
     fun getRodSpeed(stack: ItemStack?):Int{
-        if (stack != null) return stack.components.getOrDefault(JRComponents.SPEED,1)
+        if (stack != null) return stack.components.getOrDefault(JRComponents.Companion.SPEED,1)
         return 1
     }
 }
