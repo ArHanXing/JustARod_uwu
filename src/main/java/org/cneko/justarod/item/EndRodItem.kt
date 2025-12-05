@@ -230,20 +230,21 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         if (lubricate == 0.toDouble()) lubricate = 1.0
 
         // 最终的伤害指数
-        val amount = speed / (lubricate)
+        // 这里润滑改成乘算了注意
+        val amount = speed * (lubricate)
 
         var dropItemId = "kubejs:defective_lust_crystal"
 
         if (amount >= 100){
             // 痛死了！！！
-            entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.3).toFloat())
+            entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.1).toFloat())
             dropItemId="kubebjs:normal_lust_crystal"
         }
         if (amount >= 500){
             // 被草飞了喵
             val random = world?.random
-            entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.05,
-                (random?.nextFloat()?.times(amount) ?: 0f).toDouble()*0.01, (random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.05)
+            entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02,
+                (random?.nextFloat()?.times(amount) ?: 0f).toDouble()*0.01, (random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02)
             )
             dropItemId="kubebjs:exquisite_lust_crystal"
         }
@@ -252,9 +253,13 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         val stack = createItemStack(dropItemId, 1)
         entity.dropStack(stack)
 
+        // DEBUG专属
+        val __db_outputAmount = Text.of { "现在的威力大小是：$amount" }
+        entity.sendMessage(__db_outputAmount)
+
         // 要晕掉惹...
         if (entity is Powerable){
-            entity.power = entity.power - 0.1
+            entity.power = entity.power - 0.0025*amount
         }
 
         // TODO： 淫叫
