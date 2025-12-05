@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "justarod",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "JustARod",
   "description": "meow",
   "authors": [
@@ -30,7 +30,8 @@
   "depends": {
     "fabricloader": "*",
     "fabric": "*",
-    "minecraft": ">=1.21",
+    "minecraft": ">=1.21.1",
+    "fabric-language-kotlin": "*",
     "toneko": ">=1.7.0"
   },
   "mixins": [

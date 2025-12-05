@@ -1,4 +1,4 @@
-package org.cneko.justarod.item.rod
+package org.cneko.justarod.item
 
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.enchantment.Enchantments
@@ -10,7 +10,6 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
@@ -19,7 +18,6 @@ import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -27,7 +25,6 @@ import org.cneko.justarod.JRAttributes
 import org.cneko.justarod.damage.JRDamageTypes
 import org.cneko.justarod.effect.JREffects
 import org.cneko.justarod.entity.Powerable
-import org.cneko.justarod.item.JRComponents
 import org.cneko.toneko.common.mod.items.BazookaItem.Ammunition
 import kotlin.math.sqrt
 import org.cneko.justarod.JRUtil.Companion.createItemStack

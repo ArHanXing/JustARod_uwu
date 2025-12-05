@@ -20,17 +20,11 @@ import org.cneko.justarod.quirks.JRQuirks;
  */
 
 /* TODO : 无顺序
- 1. 软体末地烛
- 2. 高级电动末地烛
- 3. 工业末地烛
- 4. 海绵末地烛
- 5. 淫水
- 6. 末地烛处刑机
- 8. 公屏求草
- 10. quirks/SM
- 12. 远控末地烛
- 13. 全服共享末地烛
- 14. 双头末地烛
+    1. 开发度问题
+    2. 将欲望水晶的注册移植到mod本体中来
+    3. 生物80pts+
+    4. 实现物品化的猫娘及其压榨问题
+    5. 我想你了modular machinery
  */
 
 public class Justarod implements ModInitializer {

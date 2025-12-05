@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/JustARod.main.iml" filepath="$PROJECT_DIR$/.idea/modules/JustARod.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JustARod.test.iml" filepath="$PROJECT_DIR$/.idea/modules/JustARod.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.cneko.JustARod.main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.cneko.JustARod.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JustARod_uwu.main.iml" filepath="$PROJECT_DIR$/.idea/modules/JustARod_uwu.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JustARod_uwu.test.iml" filepath="$PROJECT_DIR$/.idea/modules/JustARod_uwu.test.iml" />
     </modules>
   </component>
 </project>

@@ -1,10 +1,7 @@
 # 只是根棍子
 这是[More_end_rod](https://github.com/CSneko/More_end_rod/)模组的续作，但是需要toNeko作为前置，你可以将其理解为toNeko的附属模组喵
 
-你需要在Minecraft1.21使用Fabric加载器运行，并且需要安装[Fabric API](https://modrinth.com/mod/fabric-api)和[Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)以及[toNeko](https://modrinth.com/mod/tonekomod)作为前置哦
-
-喜欢这个模组的话记得把star点上(｢・ω・)｢
-
+看到这里快快去[爱发电](https://afdian.com/a/csneko)支持作者并获取整合包！！！
 # 这个分支
 来源于ArHanXing的一次发电：
 ```md
@@ -15,3 +12,7 @@
 关于自己：开发度的增加肯定是有正面反馈，除了水晶纯度等级上升还有速度加快。
 后期甚至可以做群星四飞升那样的强化路线（？）
 ```
+
+这是一个主要供给作者一个没有做完（100%做不完）的整合包的JustARod Fork，基于0.1.2开发（没有月经，大概吧）
+
+由于作者对于Jvav一窍不通，开发100%会爆，见谅x
