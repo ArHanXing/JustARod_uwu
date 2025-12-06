@@ -1,8 +1,8 @@
-# 只是根棍子
-这是[More_end_rod](https://github.com/CSneko/More_end_rod/)模组的续作，但是需要toNeko作为前置，你可以将其理解为toNeko的附属模组喵
+# 只是根棍子 / JustARod UwU⭐
+这是[More_end_rod](https://github.com/CSneko/More_end_rod/)模组的续作的fork，但是需要toNeko作为前置，你可以将其理解为toNeko的附属模组喵
 
 看到这里快快去[爱发电](https://afdian.com/a/csneko)支持作者并获取整合包！！！
-# 这个分支
+## 这个分支
 来源于ArHanXing的一次发电：
 ```md
 空岛，开局只有一瓶药水和一根末地烛。玩家和猫娘有一个attribute，作为开发度，在计算末地烛威力的时候乘算；
@@ -16,3 +16,6 @@
 这是一个主要供给作者一个没有做完（100%做不完）的整合包的JustARod Fork，基于0.1.2开发（没有月经，大概吧）
 
 由于作者对于Jvav一窍不通，开发100%会爆，见谅x
+
+## 使用的别的东西
+- 玩家检测仪材质来自：Scannable mod

@@ -5,6 +5,7 @@ import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MovementType
+import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
@@ -18,6 +19,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -28,7 +30,6 @@ import org.cneko.justarod.entity.Powerable
 import org.cneko.toneko.common.mod.items.BazookaItem.Ammunition
 import kotlin.math.sqrt
 import org.cneko.justarod.JRUtil.Companion.createItemStack
-
 
 abstract class EndRodItem(settings: Settings) : Item(settings), EndRodItemInterface {
     override fun onUse(stack: ItemStack, world: World?, entity: LivingEntity, slot: Int, selected: Boolean,times: Int) : ActionResult{
@@ -206,7 +207,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
      * @param selected 是否是选中的末地烛
      * @return 使用结果
      */
-    fun useOnSelf(stack: ItemStack, world: World?, entity: LivingEntity, slot: Int, selected: Boolean):ActionResult{
+    fun useOnSelf(stack: ItemStack, world: World?, entity: LivingEntity, slot: Int, selected: Boolean): ActionResult {
         val speed = this.getRodSpeed(stack)
         if (this.canDamage(stack, speed)){
             this.damage(stack, speed, world)
@@ -226,15 +227,14 @@ interface SelfUsedItemInterface : EndRodItemInterface{
 
         // 润滑还是得要的哦
         var lubricate = entity.getAttributeValue(JRAttributes.PLAYER_LUBRICATING)
-
+        var devrate = entity.getAttributeValue(JRAttributes.PLAYER_DEVELOP_RATE)
         if (lubricate == 0.toDouble()) lubricate = 1.0
-
+        if (devrate == 0.toDouble()) devrate = 1.0
         // 最终的伤害指数
         // 这里润滑改成乘算了注意
-        val amount = speed * (lubricate)
+        val amount = speed * (lubricate) * devrate
 
         var dropItemId = "kubejs:defective_lust_crystal"
-
         if (amount >= 100){
             // 痛死了！！！
             entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.1).toFloat())
@@ -254,12 +254,54 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         entity.dropStack(stack)
 
         // DEBUG专属
-        val __db_outputAmount = Text.of { "现在的威力大小是：$amount" }
-        entity.sendMessage(__db_outputAmount)
+        //val __db_outputAmount = Text.of { "现在的威力大小是：$amount" }
+        //entity.sendMessage(__db_outputAmount)
 
         // 要晕掉惹...
         if (entity is Powerable){
             entity.power = entity.power - 0.0025*amount
+
+            //更新一下开发度
+            val targetModifierId = Identifier.of("_jaruwu_modifier_devrate")
+            var previousValue: Double
+            val attributeInstance = entity.getAttributeInstance(JRAttributes.PLAYER_DEVELOP_RATE)
+
+
+            val pastModifier = attributeInstance?.getModifier(targetModifierId)
+            if(pastModifier == null){
+                val newModifier = EntityAttributeModifier(
+                    targetModifierId,
+                    0.0,
+                    EntityAttributeModifier.Operation.ADD_VALUE
+                )
+                attributeInstance?.addPersistentModifier(newModifier)
+            }
+            else{
+                previousValue = pastModifier.value
+                attributeInstance.removeModifier(pastModifier.id)//移除旧的
+                //制作新的
+                val newModifier = EntityAttributeModifier(
+                    targetModifierId,
+                    previousValue + 0.0002 * amount,
+                    pastModifier.operation // 继承旧的操作模式
+                )
+                attributeInstance.addPersistentModifier(newModifier)
+            }
+            /*
+            //遍历
+            var founded = false
+            attributeInstance?.modifiers?.forEach { modifier ->
+                if(modifier.id == targetModifierId){
+
+
+                    founded=true
+                    return@forEach
+                }
+            }
+            if(!founded){
+
+            }
+            */
         }
 
         // TODO： 淫叫

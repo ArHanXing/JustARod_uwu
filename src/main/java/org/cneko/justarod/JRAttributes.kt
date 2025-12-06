@@ -1,11 +1,7 @@
 package org.cneko.justarod
 
-import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
-import net.minecraft.entity.EntityType
 import net.minecraft.entity.attribute.ClampedEntityAttribute
-import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.entry.RegistryEntry
@@ -28,6 +24,14 @@ class JRAttributes {
             ClampedEntityAttribute(
                 "attribute.name.generic.max_power",
                 100.0, 0.0, 1000.0
+            ).setTracked(true)
+        )
+        val PLAYER_DEVELOP_RATE_ID = Identifier.of(MODID, "player.develop_rate")
+        val PLAYER_DEVELOP_RATE: RegistryEntry<EntityAttribute> = register(
+            PLAYER_DEVELOP_RATE_ID,
+            ClampedEntityAttribute(
+                "attribute.player.develop_rate",
+                1.0, 0.0, 2147483647.0
             ).setTracked(true)
         )
         fun register(id: Identifier?, attribute: EntityAttribute?): RegistryEntry<EntityAttribute> {

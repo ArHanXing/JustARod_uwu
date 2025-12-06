@@ -60,6 +60,7 @@ class JRItems {
         val XP_GUN = XPGun()
         val REMOTE_CONTROL = RemoteControlItem(Item.Settings())
         val ICED_TEA = IcedTeaItem(Item.Settings())
+        val PLAYER_SCANNER = PlayerScannerItem()
 
         var JR_ITEM_GROUP_KEY: RegistryKey<ItemGroup>? = null
         var JR_ITEM_GROUP: ItemGroup? = null
@@ -91,6 +92,7 @@ class JRItems {
             Registry.register(Registries.ITEM, Identifier.of(MODID, "xp_gun"), XP_GUN)
             Registry.register(Registries.ITEM, Identifier.of(MODID, "remote_control"), REMOTE_CONTROL)
             Registry.register(Registries.ITEM, Identifier.of(MODID, "iced_tea"), ICED_TEA)
+            Registry.register(Registries.ITEM, Identifier.of(MODID, "player_scanner"), PLAYER_SCANNER)
             // 注册物品组
             JR_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of(MODID, "item_group"))
             JR_ITEM_GROUP = FabricItemGroup.builder()
@@ -127,6 +129,7 @@ class JRItems {
                 entries.add(XP_GUN)
                 entries.add(REMOTE_CONTROL)
                 entries.add(ICED_TEA)
+                entries.add(PLAYER_SCANNER)
             }
         }
     }

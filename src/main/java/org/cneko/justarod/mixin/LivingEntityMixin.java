@@ -68,5 +68,6 @@ public class LivingEntityMixin implements Insertable {
         DefaultAttributeContainer.Builder builder = cir.getReturnValue();
         builder.add(JRAttributes.Companion.getPLAYER_LUBRICATING());
         builder.add(JRAttributes.Companion.getGENERIC_MAX_POWER());
+        builder.add(JRAttributes.Companion.getPLAYER_DEVELOP_RATE());
     }
 }
