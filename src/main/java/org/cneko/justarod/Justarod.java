@@ -12,19 +12,11 @@ import org.cneko.justarod.item.JRItems;
 import org.cneko.justarod.packet.JRPackets;
 import org.cneko.justarod.quirks.JRQuirks;
 
-/*
-说实话，这个模组其实算不上难做，难的就是呢得把涩涩的感触做进游戏里
-可是吧，涩涩的时候大脑都是被快感给占领了，想要记住细节其实很难的
-没有这些细节的话呢，做出来的感觉很奇怪
-还有就是，得要阅本量丰富才能做的炉火纯青
- */
-
-/* TODO : 无顺序
-    1. 开发度问题
-    2. 将欲望水晶的注册移植到mod本体中来
-    3. 生物80pts+
-    4. 实现物品化的猫娘及其压榨问题
-    5. 我想你了modular machinery
+/* TODO
+    2. 将欲望水晶的注册移植到mod本体中来？
+    5. 实现玩家检测器的获取末地烛速度
+    4. 实现物品化的猫娘及其压榨问题（物品nbt问题在这里处理
+    6. 单独写一个NeoForge模组实现猫娘处理（兼容性，唉唉/机器逻辑在那里处理）
  */
 
 public class Justarod implements ModInitializer {
