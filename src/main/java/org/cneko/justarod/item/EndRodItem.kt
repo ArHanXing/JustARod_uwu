@@ -230,8 +230,10 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         var devrate = entity.getAttributeValue(JRAttributes.PLAYER_DEVELOP_RATE)
         if (lubricate == 0.toDouble()) lubricate = 1.0
         if (devrate == 0.toDouble()) devrate = 1.0
+
         // 最终的伤害指数
         // 这里润滑改成乘算了注意
+
         val amount = speed * (lubricate) * devrate
 
         var dropItemId = "kubejs:defective_lust_crystal"
@@ -253,9 +255,6 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         val stack = createItemStack(dropItemId, 1)
         entity.dropStack(stack)
 
-        // DEBUG专属
-        //val __db_outputAmount = Text.of { "现在的威力大小是：$amount" }
-        //entity.sendMessage(__db_outputAmount)
 
         // 要晕掉惹...
         if (entity is Powerable){
@@ -287,21 +286,6 @@ interface SelfUsedItemInterface : EndRodItemInterface{
                 )
                 attributeInstance.addPersistentModifier(newModifier)
             }
-            /*
-            //遍历
-            var founded = false
-            attributeInstance?.modifiers?.forEach { modifier ->
-                if(modifier.id == targetModifierId){
-
-
-                    founded=true
-                    return@forEach
-                }
-            }
-            if(!founded){
-
-            }
-            */
         }
 
         // TODO： 淫叫
@@ -309,10 +293,6 @@ interface SelfUsedItemInterface : EndRodItemInterface{
     }
 
 
-    fun getRodSpeed(stack: ItemStack?):Int{
-        if (stack != null) return stack.components.getOrDefault(JRComponents.Companion.SPEED,1)
-        return 1
-    }
 }
 
 interface OtherUsedItemInterface: EndRodItemInterface,Ammunition{
@@ -385,6 +365,10 @@ interface EndRodItemInterface{
 
     fun canDamage(stack: ItemStack, amount: Int):Boolean{
         return stack.damage+amount < stack.maxDamage
+    }
+    fun getRodSpeed(stack: ItemStack?):Int{
+        if (stack != null) return stack.components.getOrDefault(JRComponents.Companion.SPEED,1)
+        return 1
     }
 }
 enum class EndRodInstructions{

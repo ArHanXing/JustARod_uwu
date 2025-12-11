@@ -21,7 +21,7 @@ class PlayerScannerItem : Item(Settings().maxCount(1)) {
     }
     override fun use(world: World?, user: PlayerEntity?, hand: Hand?): TypedActionResult<ItemStack> {
         user ?: return super.use(world, user, hand)
-        val handStack = user.getStackInHand(hand)
+        val handStack = user.offHandStack
 
         if (world?.isClient == true) {
             val _dev_rate = user.getAttributeValue(JRAttributes.PLAYER_DEVELOP_RATE)
@@ -39,6 +39,8 @@ class PlayerScannerItem : Item(Settings().maxCount(1)) {
             __speak("§b你还可以承受§e"+(_xpower/(0.0025*100)).toInt()+"次 速度为100的末地烛使用",user)
             __speak("§b你还可以承受§e"+(_xpower/(0.0025*500).toInt())+"次 速度为500的末地烛使用",user)
             __speak("§b================",user)
+
+            val _speed = (handStack.item as EndRodItem).getRodSpeed(handStack)
         }
 
 
