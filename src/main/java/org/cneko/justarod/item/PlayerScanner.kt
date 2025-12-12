@@ -41,8 +41,8 @@ class PlayerScannerItem : Item(Settings().maxCount(1)) {
             __speak("§b目前你的§6体力§b： §e"+round((_xpower)*100)*0.01,user)
             __speak("§b================",user)
             __speak("§b目前你的§6末地烛速度倍率§b： §e"+round((_dev_rate*_lubr)*100)*0.01,user)
-            __speak("§b你还可以承受§e"+ floor(_xpower/(0.0025*100)) +"次 速度为100的末地烛使用",user)
-            __speak("§b你还可以承受§e"+ floor(_xpower/(0.0025*500)) +"次 速度为500的末地烛使用",user)
+            __speak("§b你还可以承受§e"+ floor(_xpower/(0.0025*1000)) +"次 速度为1000的末地烛使用",user)
+            __speak("§b你还可以承受§e"+ floor(_xpower/(0.0025*5000)) +"次 速度为5000的末地烛使用",user)
             __speak("§b================",user)
 
             if(handStack.item is EndRodItem) {

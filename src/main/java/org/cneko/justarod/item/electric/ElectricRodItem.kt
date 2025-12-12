@@ -47,8 +47,8 @@ abstract class ElectricRodItem(settings: Settings) : EndRodItem(settings),Simple
         val maxEnergy = getEnergyCapacity(stack)
         val maxShowEnergy: String = if (maxEnergy in 1000..1000000){
             "${maxEnergy / 1000}k"
-        }else if (maxEnergy >= 1000000){
-            "${maxEnergy / 1000000}M"
+        }else if (maxEnergy >= 10000000){
+            "${maxEnergy / 10000000}M"
         }else{
             "$maxEnergy"
         }

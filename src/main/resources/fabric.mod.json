@@ -2,15 +2,16 @@
   "schemaVersion": 1,
   "id": "justarod",
   "version": "${version}",
-  "name": "JustARod",
-  "description": "meow",
+  "name": "JustARodU",
+  "description": "meow~?",
   "authors": [
     "CrystalNeko"
   ],
   "contributors": [
     "IgnoreLicensesCN",
     "cleep5564",
-    "LingyiBit0"
+    "LingyiBit0",
+    "ArHanXing"
   ],
   "contact": {},
   "license": "GPL-3.0",
