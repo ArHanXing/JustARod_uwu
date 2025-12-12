@@ -210,7 +210,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
     fun useOnSelf(stack: ItemStack, world: World?, entity: LivingEntity, slot: Int, selected: Boolean): ActionResult {
         val speed = this.getRodSpeed(stack)
         if (this.canDamage(stack, speed)){
-            this.damage(stack, speed, world)
+            this.damage(stack, speed/20, world)
         }else{
             return ActionResult.FAIL
         }
@@ -219,11 +219,11 @@ interface SelfUsedItemInterface : EndRodItemInterface{
             return ActionResult.FAIL
         }
         // 这个速度... 什么东西啊
-        if (speed >= 10000) return ActionResult.PASS
+        if (speed >= 100000) return ActionResult.PASS
         onUse(stack, world, entity, slot, selected,speed)
 
         // 要... 要高潮了
-        entity.addEffect(JREffects.ORGASM_EFFECT,100,sqrt(speed.toFloat()).toInt())
+        entity.addEffect(JREffects.ORGASM_EFFECT,100,sqrt(speed.toFloat()*0.1).toInt())
 
         // 润滑还是得要的哦
         var lubricate = entity.getAttributeValue(JRAttributes.PLAYER_LUBRICATING)
@@ -237,12 +237,12 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         val amount = speed * (lubricate) * devrate
 
         var dropItemId = "kubejs:defective_lust_crystal"
-        if (amount >= 100){
+        if (amount >= 1000){
             // 痛死了！！！
-            entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.1).toFloat())
+            entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.01).toFloat())
             dropItemId="kubebjs:normal_lust_crystal"
         }
-        if (amount >= 500){
+        if (amount >= 5000){
             // 被草飞了喵
             val random = world?.random
             entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02,
@@ -261,7 +261,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
             entity.power = entity.power - 0.0025*amount
 
             //更新一下开发度
-            val targetModifierId = Identifier.of("_jaruwu_modifier_devrate")
+            val targetModifierId = Identifier.of("__jaruwu_modifier_devrate")
             var previousValue: Double
             val attributeInstance = entity.getAttributeInstance(JRAttributes.PLAYER_DEVELOP_RATE)
 
@@ -367,7 +367,7 @@ interface EndRodItemInterface{
         return stack.damage+amount < stack.maxDamage
     }
     fun getRodSpeed(stack: ItemStack?):Int{
-        if (stack != null) return stack.components.getOrDefault(JRComponents.Companion.SPEED,1)
+        if (stack != null) return stack.components.getOrDefault(JRComponents.Companion.SPEED,10)
         return 1
     }
 }
