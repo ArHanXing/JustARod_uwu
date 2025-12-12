@@ -13,6 +13,7 @@ import org.cneko.justarod.packet.JRPackets;
 import org.cneko.justarod.quirks.JRQuirks;
 
 /* TODO
+    7. 修复开发度死亡重置（真有你的，mojang）
     2. 将欲望水晶的注册移植到mod本体中来？
     4. 实现物品化的猫娘及其压榨问题（物品nbt问题在这里处理
     6. 单独写一个NeoForge模组实现猫娘处理（兼容性，唉唉/机器逻辑在那里处理）
