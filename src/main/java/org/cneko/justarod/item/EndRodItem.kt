@@ -15,6 +15,7 @@ import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Formatting
@@ -30,6 +31,8 @@ import org.cneko.justarod.entity.Powerable
 import org.cneko.toneko.common.mod.items.BazookaItem.Ammunition
 import kotlin.math.sqrt
 import org.cneko.justarod.JRUtil.Companion.createItemStack
+import org.cneko.justarod.entity.PersistentAttributeManager
+import org.cneko.justarod.entity.PersistentAttributeManager.getAttributeRegistryEntry
 
 abstract class EndRodItem(settings: Settings) : Item(settings), EndRodItemInterface {
     override fun onUse(stack: ItemStack, world: World?, entity: LivingEntity, slot: Int, selected: Boolean,times: Int) : ActionResult{
@@ -259,32 +262,37 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         // 要晕掉惹...
         if (entity is Powerable){
             entity.power = entity.power - 0.0025*amount
-
             //更新一下开发度
-            val targetModifierId = Identifier.of("__jaruwu_modifier_devrate")
-            var previousValue: Double
+            val targetModifierID = Identifier.of("__jaruwu_devrate")
+
             val attributeInstance = entity.getAttributeInstance(JRAttributes.PLAYER_DEVELOP_RATE)
-
-
-            val pastModifier = attributeInstance?.getModifier(targetModifierId)
+            val pastModifier = attributeInstance?.getModifier(targetModifierID)
+            
             if(pastModifier == null){
-                val newModifier = EntityAttributeModifier(
-                    targetModifierId,
+                PersistentAttributeManager.addPersistentModifier(
+                    entity as ServerPlayerEntity,
+                    JRAttributes.PLAYER_DEVELOP_RATE,
+                    Identifier.of(targetModifierID.toString()),
                     0.0,
                     EntityAttributeModifier.Operation.ADD_VALUE
                 )
-                attributeInstance?.addPersistentModifier(newModifier)
             }
             else{
-                previousValue = pastModifier.value
+                val previousValue = pastModifier.value
                 attributeInstance.removeModifier(pastModifier.id)//移除旧的
-                //制作新的
-                val newModifier = EntityAttributeModifier(
-                    targetModifierId,
-                    previousValue + 0.0002 * amount,
-                    pastModifier.operation // 继承旧的操作模式
+                PersistentAttributeManager.removePersistentModifier(
+                    entity as ServerPlayerEntity,
+                    JRAttributes.PLAYER_DEVELOP_RATE,
+                    targetModifierID
                 )
-                attributeInstance.addPersistentModifier(newModifier)
+
+                PersistentAttributeManager.addPersistentModifier(//制作新的
+                    entity,
+                    JRAttributes.PLAYER_DEVELOP_RATE,
+                    Identifier.of(targetModifierID.toString()),
+                    previousValue + 0.0002 * amount,
+                    EntityAttributeModifier.Operation.ADD_VALUE
+                )
             }
         }
 
