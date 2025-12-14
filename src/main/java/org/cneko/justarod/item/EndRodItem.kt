@@ -39,7 +39,6 @@ abstract class EndRodItem(settings: Settings) : Item(settings), EndRodItemInterf
         // 添加计数
         val count = stack.getOrDefault(JRComponents.Companion.USED_TIME_MARK, 0)
         stack.set(JRComponents.Companion.USED_TIME_MARK, count + times)
-
         return ActionResult.SUCCESS
     }
 
@@ -260,7 +259,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
 
 
         // 要晕掉惹...
-        if (entity is Powerable){
+        if (entity is Powerable && !entity.world.isClient){
             entity.power = entity.power - 0.0025*amount
             //更新一下开发度
             val targetModifierID = Identifier.of("__jaruwu_devrate")
