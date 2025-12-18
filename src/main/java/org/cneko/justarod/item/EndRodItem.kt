@@ -289,7 +289,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
                     entity,
                     JRAttributes.PLAYER_DEVELOP_RATE,
                     Identifier.of(targetModifierID.toString()),
-                    previousValue + 0.0002 * amount,
+                    previousValue + 0.001 * sqrt(amount),
                     EntityAttributeModifier.Operation.ADD_VALUE
                 )
             }
