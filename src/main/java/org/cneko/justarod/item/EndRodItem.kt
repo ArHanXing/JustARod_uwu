@@ -31,8 +31,6 @@ import org.cneko.justarod.entity.Powerable
 import org.cneko.toneko.common.mod.items.BazookaItem.Ammunition
 import kotlin.math.sqrt
 import org.cneko.justarod.JRUtil.Companion.createItemStack
-import org.cneko.justarod.entity.PersistentAttributeManager
-import org.cneko.justarod.entity.PersistentAttributeManager.getAttributeRegistryEntry
 
 abstract class EndRodItem(settings: Settings) : Item(settings), EndRodItemInterface {
     override fun onUse(stack: ItemStack, world: World?, entity: LivingEntity, slot: Int, selected: Boolean,times: Int) : ActionResult{
@@ -230,7 +228,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
 
         // 润滑还是得要的哦
         var lubricate = entity.getAttributeValue(JRAttributes.PLAYER_LUBRICATING)
-        var devrate = entity.getAttributeValue(JRAttributes.PLAYER_DEVELOP_RATE)
+        var devrate = 1.1
         if (lubricate == 0.toDouble()) lubricate = 1.0
         if (devrate == 0.toDouble()) devrate = 1.0
 
@@ -263,37 +261,6 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         if (entity is Powerable){
             entity.power = entity.power - 0.0025*amount
             //更新一下开发度
-            val targetModifierID = Identifier.of("__jaruwu_devrate")
-
-            val attributeInstance = entity.getAttributeInstance(JRAttributes.PLAYER_DEVELOP_RATE)
-            val pastModifier = attributeInstance?.getModifier(targetModifierID)
-            
-            if(pastModifier == null){
-                PersistentAttributeManager.addPersistentModifier(
-                    entity as ServerPlayerEntity,
-                    JRAttributes.PLAYER_DEVELOP_RATE,
-                    Identifier.of(targetModifierID.toString()),
-                    0.0,
-                    EntityAttributeModifier.Operation.ADD_VALUE
-                )
-            }
-            else{
-                val previousValue = pastModifier.value
-                attributeInstance.removeModifier(pastModifier.id)//移除旧的
-                PersistentAttributeManager.removePersistentModifier(
-                    entity as ServerPlayerEntity,
-                    JRAttributes.PLAYER_DEVELOP_RATE,
-                    targetModifierID
-                )
-
-                PersistentAttributeManager.addPersistentModifier(//制作新的
-                    entity,
-                    JRAttributes.PLAYER_DEVELOP_RATE,
-                    Identifier.of(targetModifierID.toString()),
-                    previousValue + 0.0002 * amount,
-                    EntityAttributeModifier.Operation.ADD_VALUE
-                )
-            }
         }
 
         // TODO： 淫叫
