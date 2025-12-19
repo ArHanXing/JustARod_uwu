@@ -26,14 +26,6 @@ class JRAttributes {
                 100.0, 0.0, 1000.0
             ).setTracked(true)
         )
-        val PLAYER_DEVELOP_RATE_ID = Identifier.of(MODID, "player.develop_rate")
-        val PLAYER_DEVELOP_RATE: RegistryEntry<EntityAttribute> = register(
-            PLAYER_DEVELOP_RATE_ID,
-            ClampedEntityAttribute(
-                "attribute.player.develop_rate",
-                1.0, 0.0, 2147483647.0
-            ).setTracked(true)
-        )
         fun register(id: Identifier?, attribute: EntityAttribute?): RegistryEntry<EntityAttribute> {
             return Registry.registerReference(Registries.ATTRIBUTE, id, attribute)
         }

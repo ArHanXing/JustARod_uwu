@@ -1,16 +1,14 @@
 package org.cneko.justarod.mixin;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
 import org.cneko.justarod.JRAttributes;
 import org.cneko.justarod.entity.Insertable;
-import org.cneko.justarod.entity.Powerable;
-import org.cneko.justarod.packet.PowerSyncPayload;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -68,6 +66,5 @@ public class LivingEntityMixin implements Insertable {
         DefaultAttributeContainer.Builder builder = cir.getReturnValue();
         builder.add(JRAttributes.Companion.getPLAYER_LUBRICATING());
         builder.add(JRAttributes.Companion.getGENERIC_MAX_POWER());
-        builder.add(JRAttributes.Companion.getPLAYER_DEVELOP_RATE());
     }
 }

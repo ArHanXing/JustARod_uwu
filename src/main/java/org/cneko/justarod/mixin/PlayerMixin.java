@@ -74,8 +74,7 @@ public abstract class PlayerMixin implements Powerable {
     private static void createPlayerAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
         cir.getReturnValue()
                 .add(Companion.getPLAYER_LUBRICATING())
-                .add(Companion.getGENERIC_MAX_POWER())
-                .add(Companion.getPLAYER_DEVELOP_RATE());
+                .add(Companion.getGENERIC_MAX_POWER());
     }
 
 }

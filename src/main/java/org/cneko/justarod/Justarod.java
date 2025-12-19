@@ -1,5 +1,6 @@
 package org.cneko.justarod;
 
+
 import net.fabricmc.api.ModInitializer;
 import org.cneko.justarod.api.NetWorkingRodData;
 import org.cneko.justarod.block.JRBlocks;
@@ -40,6 +41,6 @@ public class Justarod implements ModInitializer {
 
         EntityDeathEvent.init();
         EntityRespawnEvent.init();
-        AttributeEvent.INSTANCE.register();
+
     }
 }
