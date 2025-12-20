@@ -30,7 +30,7 @@ class PlayerScannerItem : Item(Settings().maxCount(1)) {
             return TypedActionResult.fail(user.getStackInHand(hand))
         }
         if (world?.isClient == true) {
-            val _dev_rate = 1.1
+            val _dev_rate = user.getAttributeValue(JRAttributes.PLAYER_DEVELOP_RATE)
             val _lubr = user.getAttributeValue(JRAttributes.PLAYER_LUBRICATING)
             val _xpower = user.power
 

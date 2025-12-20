@@ -228,7 +228,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
 
         // 润滑还是得要的哦
         var lubricate = entity.getAttributeValue(JRAttributes.PLAYER_LUBRICATING)
-        var devrate = 1.1
+        var devrate = entity.getAttributeValue(JRAttributes.PLAYER_DEVELOP_RATE)
         if (lubricate == 0.toDouble()) lubricate = 1.0
         if (devrate == 0.toDouble()) devrate = 1.0
 
@@ -238,16 +238,16 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         val amount = speed * (lubricate) * devrate
 
         var dropItemId = "kubejs:defective_lust_crystal"
-        if (amount >= 1000){
+        if (amount >= 500){
             // 痛死了！！！
             entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.01).toFloat())
             dropItemId="kubebjs:normal_lust_crystal"
         }
-        if (amount >= 5000){
+        if (amount >= 2000){
             // 被草飞了喵
             val random = world?.random
-            entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02,
-                (random?.nextFloat()?.times(amount) ?: 0f).toDouble()*0.01, (random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02)
+            entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.01,
+                (random?.nextFloat()?.times(amount) ?: 0f).toDouble()*0.005, (random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.01)
             )
             dropItemId="kubebjs:exquisite_lust_crystal"
         }
@@ -261,6 +261,33 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         if (entity is Powerable){
             entity.power = entity.power - 0.0025*amount
             //更新一下开发度
+
+            //更新一下开发度
+            val targetModifierId = Identifier.of("_jaruwu_modifier_devrate")
+            var previousValue: Double
+            val attributeInstance = entity.getAttributeInstance(JRAttributes.PLAYER_DEVELOP_RATE)
+
+
+            val pastModifier = attributeInstance?.getModifier(targetModifierId)
+            if(pastModifier == null){
+                val newModifier = EntityAttributeModifier(
+                    targetModifierId,
+                    0.0,
+                    EntityAttributeModifier.Operation.ADD_VALUE
+                )
+                attributeInstance?.addPersistentModifier(newModifier)
+            }
+            else{
+                previousValue = pastModifier.value
+                attributeInstance.removeModifier(pastModifier.id)//移除旧的
+                //制作新的
+                val newModifier = EntityAttributeModifier(
+                    targetModifierId,
+                    previousValue + 0.001 * sqrt(amount),
+                    pastModifier.operation // 继承旧的操作模式
+                )
+                attributeInstance.addPersistentModifier(newModifier)
+            }
         }
 
         // TODO： 淫叫
