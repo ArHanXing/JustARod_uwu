@@ -40,7 +40,7 @@ class PlayerScannerItem : Item(Settings().maxCount(1)) {
             __speak("§b目前你的§f润滑值§b： §e"+round((_lubr)*100)*0.01,user)
             __speak("§b目前你的§6体力§b： §e"+round((_xpower)*100)*0.01,user)
             __speak("§b================",user)
-            __speak("§b目前你的§6末地烛速度倍率§b： §e"+round((_dev_rate*_lubr)*100)*0.01,user)
+            __speak("§b目前你的§6末地烛速度倍率§b： §e"+round(((_dev_rate+1)*_lubr)*100)*0.01,user)
             __speak("§b你还可以承受§e"+ floor(_xpower/(0.0025*1000)) +"次 速度为1000的末地烛使用",user)
             __speak("§b你还可以承受§e"+ floor(_xpower/(0.0025*5000)) +"次 速度为5000的末地烛使用",user)
             __speak("§b================",user)
@@ -48,9 +48,14 @@ class PlayerScannerItem : Item(Settings().maxCount(1)) {
             if(handStack.item is EndRodItem) {
                 val _speed = (handStack.item as EndRodItem).getRodSpeed(handStack)
                 __speak("§b副手末地烛的§e速度§b： §e$_speed",user)
-                __speak("§b副手末地烛的§e实际速度§b： §e"+round((_dev_rate*_lubr*_speed)*100)*0.01,user)
+                __speak("§b副手末地烛的§e实际速度§b： §e"+round(((_dev_rate+1)*_lubr*_speed)*100)*0.01,user)
                 __speak("§b你还可以承受§e"+ floor(_xpower/(0.0025*_speed*_dev_rate)) +"次 这根末地烛的使用",user)
                 __speak("§b================",user)
+
+            }
+            else
+            {
+                __speak("§b开发度会在使用末地烛后更新！",user)
             }
         }
 

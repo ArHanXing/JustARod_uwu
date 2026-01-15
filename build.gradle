@@ -32,6 +32,8 @@ repositories {
     }
 
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
+
+    maven { url 'https://maven.blamejared.com' }//faux entity data
 }
 
 dependencies {
@@ -60,6 +62,9 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
+    //我曾三度打错api名字
+    //我真的废了草 _ArH
+    modImplementation("com.faux.fauxcustomentitydata:FauxCustomEntityData-fabric-1.21.1:13.0.1")
 }
 
 loom {

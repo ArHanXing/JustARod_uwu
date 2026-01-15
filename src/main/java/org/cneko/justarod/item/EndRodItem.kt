@@ -1,5 +1,6 @@
 package org.cneko.justarod.item
 
+import com.faux.customentitydata.api.CustomDataHelper
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.Entity
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.tooltip.TooltipType
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.entry.RegistryEntry
@@ -37,7 +39,6 @@ abstract class EndRodItem(settings: Settings) : Item(settings), EndRodItemInterf
         // 添加计数
         val count = stack.getOrDefault(JRComponents.Companion.USED_TIME_MARK, 0)
         stack.set(JRComponents.Companion.USED_TIME_MARK, count + times)
-
         return ActionResult.SUCCESS
     }
 
@@ -230,24 +231,23 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         var lubricate = entity.getAttributeValue(JRAttributes.PLAYER_LUBRICATING)
         var devrate = entity.getAttributeValue(JRAttributes.PLAYER_DEVELOP_RATE)
         if (lubricate == 0.toDouble()) lubricate = 1.0
-        if (devrate == 0.toDouble()) devrate = 1.0
 
         // 最终的伤害指数
         // 这里润滑改成乘算了注意
 
-        val amount = speed * (lubricate) * devrate
+        val amount = speed * (lubricate) * (devrate+1.0)
 
         var dropItemId = "kubejs:defective_lust_crystal"
-        if (amount >= 500){
+        if (amount >= 1000){
             // 痛死了！！！
             entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.01).toFloat())
             dropItemId="kubebjs:normal_lust_crystal"
         }
-        if (amount >= 2000){
+        if (amount >= 5000){
             // 被草飞了喵
             val random = world?.random
-            entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.01,
-                (random?.nextFloat()?.times(amount) ?: 0f).toDouble()*0.005, (random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.01)
+            entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02,
+                (random?.nextFloat()?.times(amount) ?: 0f).toDouble()*0.01, (random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02)
             )
             dropItemId="kubebjs:exquisite_lust_crystal"
         }
@@ -258,32 +258,54 @@ interface SelfUsedItemInterface : EndRodItemInterface{
 
 
         // 要晕掉惹...
-        if (entity is Powerable){
+        if (entity is Powerable && !entity.world.isClient){
             entity.power = entity.power - 0.0025*amount
             //更新一下开发度
+            //previousValue + 0.001 * sqrt(amount),
 
-            //更新一下开发度
+            var updValue : Double
+            val persistentDevRate = CustomDataHelper.getPersistentData(entity as ServerPlayerEntity)
+
+            if(persistentDevRate == null){
+                val newData = NbtCompound()
+                newData.putDouble("jaruwu_devrate",1.0)
+                CustomDataHelper.setPersistentData(entity, newData)
+                updValue = 1.0
+            }
+            else{
+                val oldData = CustomDataHelper.getPersistentData(entity)
+                val oldDouble = oldData.getDouble("jaruwu_devrate")
+                oldData.remove("jaruwu_devrate")
+                oldData.putDouble("jaruwu_devrate",oldDouble + 0.001 * sqrt(amount))
+                CustomDataHelper.setPersistentData(entity,oldData)
+                updValue = oldDouble + 0.001 * sqrt(amount)
+            }
+
+
+            /*
+            * 开发乐事：
+            * 写到这里发现在一个贼几把老的commit上写
+            * 原来自己就忘了刷新git
+            * */
+            //faux更新完之后更新attribute
             val targetModifierId = Identifier.of("_jaruwu_modifier_devrate")
-            var previousValue: Double
             val attributeInstance = entity.getAttributeInstance(JRAttributes.PLAYER_DEVELOP_RATE)
-
 
             val pastModifier = attributeInstance?.getModifier(targetModifierId)
             if(pastModifier == null){
                 val newModifier = EntityAttributeModifier(
                     targetModifierId,
-                    0.0,
+                    1.0,
                     EntityAttributeModifier.Operation.ADD_VALUE
                 )
                 attributeInstance?.addPersistentModifier(newModifier)
             }
             else{
-                previousValue = pastModifier.value
                 attributeInstance.removeModifier(pastModifier.id)//移除旧的
                 //制作新的
                 val newModifier = EntityAttributeModifier(
                     targetModifierId,
-                    previousValue + 0.001 * sqrt(amount),
+                    updValue,
                     pastModifier.operation // 继承旧的操作模式
                 )
                 attributeInstance.addPersistentModifier(newModifier)

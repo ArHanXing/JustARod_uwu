@@ -31,7 +31,7 @@ class JRAttributes {
             PLAYER_DEVELOP_RATE_ID,
             ClampedEntityAttribute(
                 "attribute.player.develop_rate",
-                1.0, 0.0, 2147483647.0
+                0.0, 0.0, 2147483647.0
             ).setTracked(true)
         )
         fun register(id: Identifier?, attribute: EntityAttribute?): RegistryEntry<EntityAttribute> {
