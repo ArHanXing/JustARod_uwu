@@ -8,7 +8,7 @@
 由于作者对于Jvav一窍不通，开发100%会爆或者遇到简单问题还是无法解决，见谅（
 
 ## 鸣谢
-- 玩家检测仪材质来自：Scannable mod（CC0协议）
+- 玩家检测仪材质来自：Scannable mod
 - CrystalNeko 的此前大量的代码
 - HgTlPbBi 的此前大量的代码
 

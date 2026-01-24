@@ -234,14 +234,14 @@ interface SelfUsedItemInterface : EndRodItemInterface{
 
         // 最终的伤害指数
         // 这里润滑改成乘算了注意
-
+        var estrus = entity.getStatusEffect(JREffects.ESTRUS_EFFECT.entry())
         val amount = speed * (lubricate) * (devrate+1.0)
 
         var dropItemId = "kubejs:defective_lust_crystal"
         if (amount >= 1000){
             // 痛死了！！！
             entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.01).toFloat())
-            dropItemId="kubebjs:normal_lust_crystal"
+            dropItemId="kubejs:normal_lust_crystal"
         }
         if (amount >= 5000){
             // 被草飞了喵
@@ -249,7 +249,7 @@ interface SelfUsedItemInterface : EndRodItemInterface{
             entity.move(MovementType.SHULKER_BOX, Vec3d((random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02,
                 (random?.nextFloat()?.times(amount) ?: 0f).toDouble()*0.01, (random?.nextFloat()?.times(1) ?: 0f).toDouble()*0.02)
             )
-            dropItemId="kubebjs:exquisite_lust_crystal"
+            dropItemId="kubejs:exquisite_lust_crystal"
         }
 
         // 创建掉落部分物品堆
