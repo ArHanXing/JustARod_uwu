@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "justarod:item/stamina_draguht"
+    "layer0": "justarod:item/stamina_draught"
   }
 }
