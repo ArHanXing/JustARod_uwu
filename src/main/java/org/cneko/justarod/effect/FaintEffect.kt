@@ -8,6 +8,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectCategory
 import net.minecraft.server.network.ServerPlayerEntity
+import org.cneko.justarod.JRAttributes
 import org.cneko.toneko.common.mod.api.EntityPoseManager
 import org.cneko.toneko.common.mod.effects.ExcitingEffect
 import org.cneko.toneko.common.mod.packets.EntityPosePayload

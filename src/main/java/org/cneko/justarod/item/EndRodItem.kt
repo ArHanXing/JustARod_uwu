@@ -233,14 +233,14 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         if (lubricate == 0.toDouble()) lubricate = 1.0
 
         // 最终的伤害指数
-        // 这里润滑改成乘算了注意
+        // 这里润滑改成乘算了
         var estrus = entity.getStatusEffect(JREffects.ESTRUS_EFFECT.entry())
         val amount = speed * (lubricate) * (devrate+1.0)
 
         var dropItemId = "kubejs:defective_lust_crystal"
         if (amount >= 1000){
             // 痛死了！！！
-            entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.01).toFloat())
+            entity.damage(JRDamageTypes.sexualExcitement(entity), (amount*0.001).toFloat())
             dropItemId="kubejs:normal_lust_crystal"
         }
         if (amount >= 5000){
@@ -255,7 +255,6 @@ interface SelfUsedItemInterface : EndRodItemInterface{
         // 创建掉落部分物品堆
         val stack = createItemStack(dropItemId, 1)
         entity.dropStack(stack)
-
 
         // 要晕掉惹...
         if (entity is Powerable && !entity.world.isClient){

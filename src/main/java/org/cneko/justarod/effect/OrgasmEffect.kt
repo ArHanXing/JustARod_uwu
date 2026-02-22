@@ -22,18 +22,17 @@ class OrgasmEffect : StatusEffect(StatusEffectCategory.BENEFICIAL, 0xe9b8b3) {
     companion object{
         val screamTexts = listOf(
             "♡要...要去了",
-            "好...好爽喵...",
+            "好...好爽...",
             "♡哈啊~~",
             "啊... 好过瘾♡",
-            "雅蠛蝶...",
-            "恩啊啊♡",
-            "好多...水...",
-            "喷...喷出来呢...",
+            "嗯啊♡好多...水...",
+            "喷...喷出来了...♡",
             "嗯啊♡",
             "好舒服...",
-            "为什么... 会变成这样呢...",
-            "好满足♡"
-            // 救命我写不下去了♡
+            "好满足♡",
+            "♡呜咿...～会忍不住的啦...～",
+            "呜嗯...啾...～啊...好兴奋～♡",
+            "♡嗯~啊♡太刺激了♡"
         )
     }
     // 每tick都会调用一次，直到返回false
@@ -41,7 +40,7 @@ class OrgasmEffect : StatusEffect(StatusEffectCategory.BENEFICIAL, 0xe9b8b3) {
         return true
     }
 
-    // 这个方法在应用药水效果时的每个tick会被调用。
+    // 这个方法在应用药水效果时的每个tick会被调用
     override fun applyUpdateEffect(entity: LivingEntity, amplifier: Int): Boolean {
         val world = entity.world
         val random: Random = world.random

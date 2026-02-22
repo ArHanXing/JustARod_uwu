@@ -75,7 +75,6 @@ class JRUtil {
             val item = getItemById(itemId)
             // 检查物品是否存在且有效
             return if (item !== Items.AIR) {
-                // Item类通常实现了ItemConvertible接口
                 ItemStack(item, count)
             } else {
                 // 处理物品不存在的情况，例如记录日志或返回默认物品
